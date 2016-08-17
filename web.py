@@ -16,6 +16,14 @@ class The404Handler(tornado.web.RequestHandler):
     def get(self):
         self.render("templates/404.php")
 
+class FlameHandler(tornado.web.RequestHandler):
+    def get(self):
+        now = datetime.now()
+        if now.hour == 0 and now.minute <= 10:
+            self.render("templates/fireindex.html", picture='flame.gif')
+        else :
+            self.render("templates/404.php")
+
 class JigokuHandler(tornado.web.RequestHandler):
     def get(self):
         now = datetime.now()
@@ -23,6 +31,7 @@ class JigokuHandler(tornado.web.RequestHandler):
             self.render("templates/jigoku2.php")
         else :
             self.render("templates/404.php")
+
 
 class Index2Handler(tornado.web.RequestHandler):
     def post(self):
@@ -42,11 +51,12 @@ if __name__ == "__main__":
             (r"/404.php",The404Handler),
             (r"/jigoku.php", JigokuHandler),
             (r"/add.php",Index2Handler),
+            (r"/flame.php",FlameHandler),
             (r"/.*",The404Handler),
         ],
 
         settings=dict(
-            debug=True,
+            debug=False,
             gzip=True,
         ),
 

@@ -12,8 +12,8 @@ var mi
 hr=now.getHours()
 mi=now.getMinutes()  
  
-if (hr==0&&mi<=10)  
-{location.replace("jigoku.php")} 
+if (hr==0&&mi<=10)
+{location.replace("flame.php")}
 else
 {location.replace("404.php")}
 </script> 
