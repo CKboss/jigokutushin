@@ -3,6 +3,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import os.path
+from datetime import datetime
 
 from tornado.options import define, options
 define("port", default=8000, help="run on the given port", type=int)
@@ -17,13 +18,22 @@ class The404Handler(tornado.web.RequestHandler):
 
 class JigokuHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("templates/jigoku2.php")
+        now = datetime.now()
+        if now.hour==0 and now.minute<=10 :
+            self.render("templates/jigoku2.php")
+        else :
+            self.render("templates/404.php")
 
 class Index2Handler(tornado.web.RequestHandler):
     def post(self):
-        self.render("templates/index2.html",picture="a02.jpg")
+        now = datetime.now()
+        if now.hour == 0 and now.minute <= 10:
+            self.render("templates/index2.html",picture="a02.jpg")
+        else:
+            self.render("templates/404.php")
 
 if __name__ == "__main__":
+
 
     tornado.options.parse_command_line()
     app = tornado.web.Application(
@@ -32,10 +42,11 @@ if __name__ == "__main__":
             (r"/404.php",The404Handler),
             (r"/jigoku.php", JigokuHandler),
             (r"/add.php",Index2Handler),
+            (r"/.*",The404Handler),
         ],
 
         settings=dict(
-            debug=False,
+            debug=True,
             gzip=True,
         ),
 
